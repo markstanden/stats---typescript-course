@@ -1,12 +1,6 @@
 //import fs.readFileSync from node standard library, needed for file importing
 import { readFileSync } from 'fs';
 
-//my utility functions
-import { dateStringToDate } from './utils';
-
-// enum alias
-import { MatchResult } from './MatchResult';
-
 export class CSVFileReader {
   public encodingType: string = 'utf-8';
 
@@ -22,7 +16,13 @@ export class CSVFileReader {
     this.rawData = readFileSync(this.filename, {
       encoding: 'utf-8',
     });
-    console.log(`Loading the file ${this.filename} which is encoded with ${this.encodingType}`);
+    console.log(
+      `\n
+      *****************************************
+        Loading \t'${this.filename}'
+        Encoding \t'${this.encodingType}
+      *****************************************\n`
+    );
   }
 
   private parse(): void {
@@ -34,17 +34,6 @@ export class CSVFileReader {
       // (each previously separated by commas)
       .map((row: string): string[] => {
         return row.split(',');
-      })
-      .map((row: string[]): any => {
-        return [
-          dateStringToDate(row[0]),
-          row[1],
-          row[2],
-          parseInt(row[3]),
-          parseInt(row[4]),
-          row[5] as MatchResult,
-          row[6],
-        ];
       });
   }
 
